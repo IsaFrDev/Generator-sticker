@@ -23,7 +23,7 @@ export default function Home() {
 
     try {
       // Public tunnel URL for mobile compatibility
-      const BACKEND_URL = 'https://sticker-gen-api.loca.lt';
+      const BACKEND_URL = 'https://happy-maps-draw.loca.lt';
 
       const response = await fetch(`${BACKEND_URL}/generate`, {
         method: 'POST',
