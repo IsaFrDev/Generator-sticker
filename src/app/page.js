@@ -22,7 +22,10 @@ export default function Home() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8001/generate', {
+      // Public tunnel URL for mobile compatibility
+      const BACKEND_URL = 'https://green-candies-rhyme.loca.lt';
+
+      const response = await fetch(`${BACKEND_URL}/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: prompt, user_id: 'web_user' })
@@ -34,7 +37,7 @@ export default function Home() {
       }
 
       if (data.file_url) {
-        setImageUrl(`http://127.0.0.1:8001${data.file_url}`);
+        setImageUrl(`${BACKEND_URL}${data.file_url}`);
       }
     } catch (err) {
       console.error(err);
