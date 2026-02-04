@@ -23,13 +23,25 @@ export default function Home() {
 
     try {
       // Public tunnel URL for mobile compatibility
-      const BACKEND_URL = 'https://green-candies-rhyme.loca.lt';
+      const BACKEND_URL = 'https://sticker-gen-api.loca.lt';
 
       const response = await fetch(`${BACKEND_URL}/generate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Bypass-Tunnel-Reminder': 'true'
+        },
         body: JSON.stringify({ text: prompt, user_id: 'web_user' })
       });
+
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") === -1) {
+        const text = await response.text();
+        if (text.includes("<html>")) {
+          throw new Error("Tunnel security landing page detected. Please open " + BACKEND_URL + " in your browser, click 'Click to Continue', and then come back here.");
+        }
+      }
+
       const data = await response.json();
 
       if (!response.ok) {
